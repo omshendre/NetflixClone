@@ -4,17 +4,17 @@ import Navbar from "../components/Navbar";
 import { onAuthStateChanged } from "firebase/auth";
 import { firebaseAuth } from "../utils/firebase-config";
 import { useNavigate } from "react-router-dom";
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector, useDispatch, Provider } from "react-redux";
 import { fetchMovies, getGenres } from "../store";
 import SelectGenre from "../components/SelectGenre";
 import Slider from "../components/Slider";
+import store from "../store/index";
 
 function TVShows() {
   const [isScrolled, setIsScrolled] = useState(false);
   const movies = useSelector((state) => state.netflix.movies);
   const genres = useSelector((state) => state.netflix.genres);
   const genresLoaded = useSelector((state) => state.netflix.genresLoaded);
-//   const dataLoading = useSelector((state) => state.netflix.dataLoading);
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -81,6 +81,12 @@ const Container = styled.div`
       margin-top: 4rem;
     }
   }
-`;
+}`
 
-export default TVShows;
+export default function TVShowsPage() {
+  return (
+    <Provider store={store}>
+      <TVShows />
+    </Provider>
+  );
+}
